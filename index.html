@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ziply Proposal Generator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="ziply-logo.png" alt="Ziply Logo" class="logo" />
+      <img id="clientLogo" alt="Client Logo" class="logo right" />
+    </div>
+
+    <form id="proposalForm">
+      <label>Business Name: <input type="text" id="businessName" required></label>
+      <label>Contact Email: <input type="email" id="email"></label>
+      <label>Required Services:
+        <select id="services">
+          <option>Internet - 500Mbps</option>
+          <option>Internet - 1Gbps</option>
+          <option>Hosted Voice - Basic</option>
+          <option>Hosted Voice - Premium</option>
+        </select>
+      </label>
+      <label>Additional Notes: <textarea id="notes"></textarea></label>
+      <button type="submit">Generate Proposal</button>
+    </form>
+
+    <div id="proposalOutput" class="proposal-output hidden">
+      <!-- Proposal Preview Goes Here -->
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -57,18 +57,20 @@ document.getElementById('proposalForm').addEventListener('submit', async functio
   const proposalHTML = `
     <style>
         /* Styles specific to proposal output, ensuring Tailwind is effective */
-        body { /* This body is within the context of where this HTML is injected */
+        body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8fafc; /* Tailwind's gray-50 */
-            color: #334155; /* Tailwind's slate-700 */
+            background-color: white; /* Ensure PDF pages have white background */
+            color: #334155;
             line-height: 1.6;
         }
-        .proposal-container { /* Renamed from .container to avoid conflict if any global .container style exists */
-            max-width: 800px;
-            margin: 0 auto;
-            /* padding: 2rem; Tailwind p-8 can be used on sections */
+        .proposal-container {
+            max-width: 98%; /* Wider content for PDF */
+            margin: 0 auto; /* Still centered */
+            padding: 1rem;  /* Reduced padding */
+            background-color: white; /* Ensure each page container has white BG */
+            box-sizing: border-box; /* Important for width/padding calcs */
         }
-        .page-break {
+        .page-break { /* This class is on each .proposal-container for HTML structure */
             page-break-before: always;
             padding-top: 2rem; /* Give some space after page break */
         }
@@ -115,7 +117,7 @@ document.getElementById('proposalForm').addEventListener('submit', async functio
     </style>
 
     <!-- Page 1: Cover Page -->
-    <div class="proposal-container min-h-screen flex flex-col justify-between items-center text-center py-12 px-4 sm:px-8">
+    <div class="proposal-container flex flex-col justify-between items-center text-center">
         <div></div> <!-- Spacer -->
         <div>
             <div class="flex items-center justify-center mb-8 space-x-4">
@@ -134,7 +136,7 @@ document.getElementById('proposalForm').addEventListener('submit', async functio
     </div>
 
     <!-- Page 2: Introduction Letter -->
-    <div class="page-break proposal-container py-12 px-4 sm:px-8">
+    <div class="page-break proposal-container">
         <p class="text-sm text-gray-500 mb-8">${formattedCurrentDate}</p>
 
         <p class="font-semibold text-gray-800 mb-1">${clientContactPerson}</p>
@@ -175,7 +177,7 @@ document.getElementById('proposalForm').addEventListener('submit', async functio
     </div>
 
     <!-- Page 3: Company Information & Network Reliability -->
-    <div class="page-break proposal-container py-12 px-4 sm:px-8">
+    <div class="page-break proposal-container">
         <h2 class="text-3xl font-bold text-gray-900 mb-4">Ziply Fiber Company Information</h2>
         <h3 class="text-2xl font-semibold text-gray-800 mt-6 mb-2">Who is Ziply Fiber?</h3>
         <p class="mb-4 text-gray-700">
@@ -205,7 +207,7 @@ document.getElementById('proposalForm').addEventListener('submit', async functio
     </div>
 
     <!-- Page 4: Network Diagram & Infrastructure Details -->
-    <div class="page-break proposal-container py-12 px-4 sm:px-8">
+    <div class="page-break proposal-container">
         <h2 class="text-3xl font-bold text-gray-900 mb-4">Ziply Fiber's network</h2>
         <p class="mb-4 text-gray-700">
             Ziply Fiber's optical network consists of over 20,000 route-miles, and it's growing rapidly. We've designed
@@ -260,66 +262,80 @@ document.getElementById('proposalForm').addEventListener('submit', async functio
   }
 
   // Add event listener for the new PDF download button
-  downloadPdfButton.addEventListener('click', function() {
-    const proposalElement = document.getElementById('proposalOutput');
-    if (!proposalElement) {
+  downloadPdfButton.addEventListener('click', async function() { // Made async
+    const proposalOutputDiv = document.getElementById('proposalOutput');
+    if (!proposalOutputDiv) {
       console.error('Proposal output element not found!');
       return;
     }
 
-    // Show a loading indicator (optional, but good for UX)
+    const proposalPages = proposalOutputDiv.querySelectorAll('.proposal-container');
+    if (!proposalPages || proposalPages.length === 0) {
+      console.error('.proposal-container elements not found!');
+      return;
+    }
+
     downloadPdfButton.textContent = 'Generating PDF...';
     downloadPdfButton.disabled = true;
 
-    html2canvas(proposalElement, {
-      scale: 2, // Improves quality
-      useCORS: true, // For external images if any are still used indirectly
-      logging: false, // Set to true for debugging html2canvas
-      allowTaint: true, // May be needed for certain image loading scenarios
-      scrollX: 0, // Ensure we capture from the top-left
-      scrollY: -window.scrollY // Capture from the top of the element
-    }).then(canvas => {
-      const imgData = canvas.toDataURL('image/png');
-      const { jsPDF } = window.jspdf; // Access jsPDF from the global window object
-      const pdf = new jsPDF('p', 'pt', 'a4'); // p: portrait, pt: points, a4: page size
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF('p', 'pt', 'a4'); // p: portrait, pt: points, a4: page size
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = pdf.internal.pageSize.getHeight(); // For checking if image is taller
 
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
+    try {
+      for (let i = 0; i < proposalPages.length; i++) {
+        const pageElement = proposalPages[i];
 
-      const canvasWidth = canvas.width;
-      const canvasHeight = canvas.height;
+        // Ensure element is visible and has dimensions before capture (important for html2canvas)
+        // This might involve temporarily making the element visible if it's part of a virtual scroll or similar
+        // For this app, all .proposal-container elements are already in the DOM from innerHTML.
 
-      // Calculate the aspect ratio
-      const ratio = canvasWidth / canvasHeight;
+        const canvas = await html2canvas(pageElement, {
+          scale: 2,
+          useCORS: true,
+          logging: false,
+          allowTaint: true,
+          scrollX: 0, // Capture from element's top-left
+          scrollY: 0,
+          windowWidth: pageElement.scrollWidth, // Use element's own width for rendering context
+          windowHeight: pageElement.scrollHeight // Use element's own height
+        });
 
-      // Calculate the height of the image in the PDF based on the PDF width and aspect ratio
-      const imgHeightInPdf = pdfWidth / ratio;
+        const imgData = canvas.toDataURL('image/png');
 
-      let position = 0;
-      let heightLeft = imgHeightInPdf;
+        // Get image properties to calculate aspect ratio correctly
+        const imgProps = pdf.getImageProperties(imgData);
+        const imgActualWidth = imgProps.width;
+        const imgActualHeight = imgProps.height;
 
-      pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeightInPdf);
-      heightLeft -= pdfHeight;
+        const ratio = imgActualWidth / imgActualHeight;
 
-      while (heightLeft > 0) {
-        position = position - pdfHeight; // Or: position -= pdfHeight;
-        pdf.addPage();
-        pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeightInPdf);
-        heightLeft -= pdfHeight;
+        let newImgHeight = pdfWidth / ratio; // Calculate height based on fitting to PDF width
+        let newImgWidth = pdfWidth;
+
+        // If the calculated height is greater than PDF page height, scale by height instead
+        // This prevents image from being cut off if it's very tall for its width on a page
+        if (newImgHeight > pdfHeight) {
+            newImgHeight = pdfHeight;
+            newImgWidth = newImgHeight * ratio;
+        }
+
+        if (i > 0) {
+          pdf.addPage();
+        }
+        pdf.addImage(imgData, 'PNG', 0, 0, newImgWidth, newImgHeight);
       }
 
       pdf.save(`ZiplyFiber-Proposal-${businessName.replace(/\s+/g, '_')}.pdf`);
 
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      alert('Could not generate PDF. See console for details.');
+    } finally {
       // Reset button
       downloadPdfButton.textContent = 'Download Proposal as PDF';
       downloadPdfButton.disabled = false;
-
-    }).catch(error => {
-      console.error('Error generating PDF:', error);
-      // Reset button on error too
-      downloadPdfButton.textContent = 'Download Proposal as PDF';
-      downloadPdfButton.disabled = false;
-      alert('Could not generate PDF. See console for details.');
-    });
+    }
   });
 });

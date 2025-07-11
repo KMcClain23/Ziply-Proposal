@@ -119,16 +119,16 @@ document.getElementById('proposalForm').addEventListener('submit', async functio
         <div></div> <!-- Spacer -->
         <div>
             <div class="flex items-center justify-center mb-8">
-                <img src="https://enterprise.ziplyfiber.com/images/logo.png" alt="Ziply Fiber Logo" width="200" class="h-auto" />
+                <img src="ziplylogo.jpg" alt="Ziply Fiber Logo" width="200" class="h-auto" />
                 <!-- Client logo is in the main app header -->
             </div>
             <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-4">Ziply Fiber Business Proposal</h1>
             <p class="text-xl text-gray-700">${businessName}</p>
             <p class="text-lg text-gray-500 mt-6">${formattedCurrentDate}</p>
         </div>
-        <div class="text-sm text-gray-400">
+        <div class="w-full flex justify-between items-end text-sm text-gray-400 px-4 sm:px-8 pb-4">
             <p>enterprise.ziplyfiber.com</p>
-            <p class="text-lg font-bold ziply-green-text">ziply fiber</p>
+            <img src="Ziply White Logo.png" alt="Ziply Fiber" style="height: 40px; width: auto;" />
         </div>
     </div>
 
@@ -166,9 +166,9 @@ document.getElementById('proposalForm').addEventListener('submit', async functio
         <p class="text-gray-600">${accountExecTitle}</p>
         <p class="text-gray-600">${accountExecEmail}</p>
 
-        <div class="mt-12 text-sm text-gray-400 text-right">
+        <div class="mt-12 w-full flex justify-between items-end text-sm text-gray-400">
             <p>enterprise.ziplyfiber.com</p>
-            <p class="text-lg font-bold ziply-green-text">ziply fiber</p>
+            <img src="Ziply White Logo.png" alt="Ziply Fiber" style="height: 40px; width: auto;" />
         </div>
     </div>
 
@@ -195,9 +195,9 @@ document.getElementById('proposalForm').addEventListener('submit', async functio
         <h3 class="text-2xl font-semibold text-gray-800 mt-6 mb-2">Ziply Fiber Regional Coverage</h3>
         <img src="https://via.placeholder.com/800x400?text=NW+Coverage+Map" alt="Ziply Fiber Regional Coverage Map" class="w-full h-auto my-4 rounded shadow-md" />
 
-        <div class="mt-12 text-sm text-gray-400 text-right">
+        <div class="mt-12 w-full flex justify-between items-end text-sm text-gray-400">
             <p>enterprise.ziplyfiber.com</p>
-            <p class="text-lg font-bold ziply-green-text">ziply fiber</p>
+            <img src="Ziply White Logo.png" alt="Ziply Fiber" style="height: 40px; width: auto;" />
         </div>
     </div>
 
@@ -222,11 +222,14 @@ document.getElementById('proposalForm').addEventListener('submit', async functio
 
         <h3 class="text-2xl font-semibold text-gray-800 mt-6 mb-2">Automated configuration</h3>
         <p class="mb-4 text-gray-700">We use automated configuration management to minimize human error and increase reliability. Remote monitoring and automation mean fewer technicians in and out of the facility and the ability to identify issues before they become disruptive.</p>
+
         <h3 class="text-2xl font-semibold text-gray-800 mt-6 mb-2">Redundant core</h3>
+        <img src="Redundant.png" alt="Redundant Core Graphic" class="my-4 rounded shadow-md mx-auto" style="width: 300px; height: auto;"/>
         <p class="mb-4 text-gray-700">Another way we reinforce reliability and performance is with a core DWDM backbone capable of 20+Tbps on all fiber routes. Unlike other carriers who rely on us for last-mile connections, we own our network. That means we maintain our own independent systems between markets, so we control the maintenance schedule and can isolate and fix any issues that arise.</p>
-        <div class="mt-12 text-sm text-gray-400 text-right">
+
+        <div class="mt-12 w-full flex justify-between items-end text-sm text-gray-400">
             <p>enterprise.ziplyfiber.com</p>
-            <p class="text-lg font-bold ziply-green-text">ziply fiber</p>
+            <img src="Ziply White Logo.png" alt="Ziply Fiber" style="height: 40px; width: auto;" />
         </div>
     </div>
   `;

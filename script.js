@@ -162,7 +162,7 @@ document.getElementById('proposalForm').addEventListener('submit', async functio
         </p>
         <p class="font-semibold text-gray-800 mb-8">This pricing quotation and service information is valid until: ${formattedExpiryDate}.</p>
         <p class="mb-2">Regards,</p>
-        <p class="font-semibold text-gray-800">${accountExecName}</p>
+        <p class="font-semibold text-gray-800">${accountExecNameInput}</p>
         <p class="text-gray-600">${accountExecTitle}</p>
         <p class="text-gray-600">${accountExecEmail}</p>
 

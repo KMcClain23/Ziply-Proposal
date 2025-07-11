@@ -119,8 +119,8 @@ document.getElementById('proposalForm').addEventListener('submit', async functio
         <div></div> <!-- Spacer -->
         <div>
             <div class="flex items-center justify-center mb-8 space-x-4">
-                <img src="ziplylogo.jpg" alt="Ziply Fiber Logo" width="200" class="h-auto" />
-                <img id="coverClientLogo" alt="Client Logo" style="height: 70px; max-width: 200px;" class="h-auto hidden"/>
+                <img src="ziplylogo.jpg" alt="Ziply Fiber Logo" style="height: 70px; width: auto;" />
+                <img id="coverClientLogo" alt="Client Logo" style="height: 70px; width: auto; max-width: 200px;" class="hidden"/>
             </div>
             <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-4">Ziply Fiber Business Proposal</h1>
             <p class="text-xl text-gray-700">${businessName}</p>
@@ -130,6 +130,7 @@ document.getElementById('proposalForm').addEventListener('submit', async functio
             <p>enterprise.ziplyfiber.com</p>
             <img src="Ziply White Logo.png" alt="Ziply Fiber" style="height: 40px; width: auto;" />
         </div>
+        <hr class="mt-2 border-gray-300 w-full"/> <!-- Added Separator -->
     </div>
 
     <!-- Page 2: Introduction Letter -->
@@ -170,6 +171,7 @@ document.getElementById('proposalForm').addEventListener('submit', async functio
             <p>enterprise.ziplyfiber.com</p>
             <img src="Ziply White Logo.png" alt="Ziply Fiber" style="height: 40px; width: auto;" />
         </div>
+        <hr class="mt-2 border-gray-300"/> <!-- Added Separator -->
     </div>
 
     <!-- Page 3: Company Information & Network Reliability -->
@@ -199,6 +201,7 @@ document.getElementById('proposalForm').addEventListener('submit', async functio
             <p>enterprise.ziplyfiber.com</p>
             <img src="Ziply White Logo.png" alt="Ziply Fiber" style="height: 40px; width: auto;" />
         </div>
+        <hr class="mt-2 border-gray-300"/> <!-- Added Separator -->
     </div>
 
     <!-- Page 4: Network Diagram & Infrastructure Details -->
@@ -231,6 +234,7 @@ document.getElementById('proposalForm').addEventListener('submit', async functio
             <p>enterprise.ziplyfiber.com</p>
             <img src="Ziply White Logo.png" alt="Ziply Fiber" style="height: 40px; width: auto;" />
         </div>
+        <hr class="mt-2 border-gray-300"/> <!-- Added Separator -->
     </div>
   `;
 

@@ -5,10 +5,26 @@ document.getElementById('proposalForm').addEventListener('submit', async functio
   const businessName = document.getElementById('businessName').value;
   const clientContactEmail = document.getElementById('clientContactEmail').value;
   const clientContactPerson = document.getElementById('clientContactPerson').value || businessName; // Default to business name if empty
-  const accountExecName = document.getElementById('accountExecName').value;
-  const accountExecEmail = document.getElementById('accountExecEmail').value;
-  const accountExecTitle = document.getElementById('accountExecTitle').value;
-  const notes = document.getElementById('notes').value; // Still have this, though not in new template explicitly
+
+  const accountExecNameInput = document.getElementById('accountExecName').value;
+  const accountExecTitle = "Mid-Market Account Executive"; // Fixed title
+  document.getElementById('accountExecTitle').value = accountExecTitle; // Ensure form field reflects this
+
+  let accountExecEmail = '';
+  if (accountExecNameInput) {
+    const nameParts = accountExecNameInput.split(' ').filter(part => part.length > 0);
+    if (nameParts.length >= 2) {
+      const firstName = nameParts[0];
+      const lastName = nameParts[nameParts.length - 1];
+      accountExecEmail = `${firstName}.${lastName}@Ziply.com`.toLowerCase();
+    } else if (nameParts.length === 1) {
+      // Fallback if only one name part is given, though less ideal for the pattern
+      accountExecEmail = `${nameParts[0]}@Ziply.com`.toLowerCase();
+    }
+  }
+  document.getElementById('accountExecEmail').value = accountExecEmail; // Update the readonly field
+
+  const notes = document.getElementById('notes').value;
 
   const selectedServiceNodes = document.querySelectorAll('input[name="service"]:checked');
   let servicesList = Array.from(selectedServiceNodes).map(node => `<li>${node.value}</li>`).join('');
@@ -103,8 +119,8 @@ document.getElementById('proposalForm').addEventListener('submit', async functio
         <div></div> <!-- Spacer -->
         <div>
             <div class="flex items-center justify-center mb-8">
-                <img src="ziply-logo.png" alt="Ziply Logo" style="height: 60px; margin-right: 10px;" />
-                <!-- Client logo will be shown in the main header, not repeated here unless desired -->
+                <img src="https://enterprise.ziplyfiber.com/images/logo.png" alt="Ziply Fiber Logo" width="200" class="h-auto" />
+                <!-- Client logo is in the main app header -->
             </div>
             <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-4">Ziply Fiber Business Proposal</h1>
             <p class="text-xl text-gray-700">${businessName}</p>
@@ -175,6 +191,10 @@ document.getElementById('proposalForm').addEventListener('submit', async functio
             <li><span class="font-semibold">Building a network for the future:</span> Your network is only as good as the investment your provider puts into it, and at Ziply Fiber, we have invested hundreds of millions of dollars of working capital in the communities we serve for the best connectivity experience now and in the future.</li>
             <li><span class="font-semibold">A four-state regionally focused network:</span> We are local and focused on connecting the communities we work and live in. With deep knowledge of the Northwest's unique topographical and meteorological challenges, we are prepared to handle the elements to keep you online, all the time.</li>
         </ul>
+
+        <h3 class="text-2xl font-semibold text-gray-800 mt-6 mb-2">Ziply Fiber Regional Coverage</h3>
+        <img src="https://via.placeholder.com/800x400?text=NW+Coverage+Map" alt="Ziply Fiber Regional Coverage Map" class="w-full h-auto my-4 rounded shadow-md" />
+
         <div class="mt-12 text-sm text-gray-400 text-right">
             <p>enterprise.ziplyfiber.com</p>
             <p class="text-lg font-bold ziply-green-text">ziply fiber</p>
@@ -194,44 +214,12 @@ document.getElementById('proposalForm').addEventListener('submit', async functio
             equipment exchange may be needed.
         </p>
 
-        <div class="network-diagram-container h-[400px] flex items-center justify-center">
-            <!-- This is a simplified representation. True dynamic lines are complex. -->
-            <div class="absolute top-8 left-12 network-cloud">OPEN INTERNET</div>
-            <div class="absolute top-8 right-12 network-cloud">OPEN INTERNET</div>
-
-            <div class="absolute top-24 left-24 network-node">EDGE (Google)</div>
-            <div class="absolute top-24 right-24 network-node">EDGE (AWS)</div>
-
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
-                <div class="text-xl font-bold">ZIPLY FIBER</div>
-                <div class="text-xl font-bold">CORE NETWORK</div>
-            </div>
-
-            <div class="absolute top-1/4 left-1/4 network-node w-20 h-10">CORE</div>
-            <div class="absolute top-1/4 right-1/4 network-node w-20 h-10">CORE</div>
-            <div class="absolute bottom-1/4 left-1/4 network-node w-20 h-10">CORE</div>
-            <div class="absolute bottom-1/4 right-1/4 network-node w-20 h-10">CORE</div>
-
-            <div class="absolute bottom-8 left-12 flex flex-col items-center">
-                <div class="network-node w-24">AGGREGATION</div>
-                <div class="network-label mt-1">AGGREGATION NET</div>
-            </div>
-            <div class="absolute bottom-8 right-12 flex flex-col items-center">
-                 <div class="network-node w-24">DISTRIBUTION</div>
-                <div class="network-label mt-1">DISTRIBUTION NET</div>
-            </div>
-
-            <!-- Conceptual lines - needs JS for real connections or more complex CSS -->
-        </div>
+        <img src="https://via.placeholder.com/800x400?text=Ziply+Fiber+Core+Network+Diagram" alt="Core DWDM Network Diagram" class="w-full h-auto my-4 rounded shadow-md" />
 
         <h3 class="text-2xl font-semibold text-gray-800 mt-8 mb-2">Infrastructure upgrades</h3>
-        <p class="mb-2 text-gray-700">We are continually upgrading our core infrastructure to significantly increase network performance and reliability. This includes:</p>
-        <ul class="list-disc list-inside space-y-1 mb-4 text-gray-700">
-            <li>Replacing legacy copper wiring with high-capacity fiber.</li>
-            <li>Extending the core network closer to premise.</li>
-            <li>Standardizing CO design across the region.</li>
-            <li>Incorporating dense wavelength division multiplexing (DWDM) technology.</li>
-        </ul>
+        <p class="mb-2 text-gray-700">We are continually upgrading our core infrastructure to significantly increase network performance and reliability. This includes (but is not limited to):</p>
+        <img src="https://via.placeholder.com/800x400?text=Infrastructure+Upgrades" alt="Infrastructure Upgrade Visualization" class="w-full h-auto my-4 rounded shadow-md" />
+
         <h3 class="text-2xl font-semibold text-gray-800 mt-6 mb-2">Automated configuration</h3>
         <p class="mb-4 text-gray-700">We use automated configuration management to minimize human error and increase reliability. Remote monitoring and automation mean fewer technicians in and out of the facility and the ability to identify issues before they become disruptive.</p>
         <h3 class="text-2xl font-semibold text-gray-800 mt-6 mb-2">Redundant core</h3>

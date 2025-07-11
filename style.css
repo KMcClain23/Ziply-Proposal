@@ -43,11 +43,13 @@ form label {
   margin-right: 8px;
 }
 
-input, textarea, select {
+input, textarea, select { /* General input styling for form page */
   width: 100%;
-  padding: 8px;
+  /* padding: 8px; Tailwind's p-2 class now handles padding for relevant inputs */
   margin-top: 5px;
+  box-sizing: border-box; /* Good practice for layout consistency */
 }
+/* Ensure Tailwind border classes on inputs in index.html provide the border */
 
 button {
   margin-top: 20px;

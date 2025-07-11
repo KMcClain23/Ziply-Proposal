@@ -21,24 +21,24 @@
     </div>
 
     <form id="proposalForm">
-      <label>Business Name: <input type="text" id="businessName" required></label>
-      <label>Contact Email (Client): <input type="email" id="clientContactEmail"></label>
-      <label>Contact Person Name (Client): <input type="text" id="clientContactPerson"></label>
+      <label>Business Name: <input type="text" id="businessName" required class="border border-gray-300 rounded p-2"></label>
+      <label>Contact Email (Client): <input type="email" id="clientContactEmail" class="border border-gray-300 rounded p-2"></label>
+      <label>Contact Person Name (Client): <input type="text" id="clientContactPerson" class="border border-gray-300 rounded p-2"></label>
       <hr class="my-4"> <!-- Visual separator -->
       <h3 class="text-lg font-semibold mt-4 mb-2">Account Executive Details:</h3>
-      <label>Your Name (Account Exec): <input type="text" id="accountExecName" required></label>
-      <label>Your Email (Account Exec): <input type="email" id="accountExecEmail" required></label>
-      <label>Your Title (Account Exec): <input type="text" id="accountExecTitle" required></label>
+      <label>Your Name (Account Exec): <input type="text" id="accountExecName" required class="border border-gray-300 rounded p-2"></label>
+      <label>Your Email (Account Exec): <input type="email" id="accountExecEmail" readonly class="border border-gray-300 rounded p-2 bg-gray-100"></label>
+      <label>Your Title (Account Exec): <input type="text" id="accountExecTitle" value="Mid-Market Account Executive" readonly class="border border-gray-300 rounded p-2 bg-gray-100"></label>
       <hr class="my-4"> <!-- Visual separator -->
       <label>Required Services:</label>
       <div id="services-options">
-        <label><input type="checkbox" name="service" value="Internet - 500Mbps"> Internet - 500Mbps</label>
-        <label><input type="checkbox" name="service" value="Internet - 1Gbps"> Internet - 1Gbps</label>
-        <label><input type="checkbox" name="service" value="Hosted Voice - Basic"> Hosted Voice - Basic</label>
-        <label><input type="checkbox" name="service" value="Hosted Voice - Premium"> Hosted Voice - Premium</label>
+        <label><input type="checkbox" name="service" value="Internet - 500Mbps" class="mr-2"> Internet - 500Mbps</label>
+        <label><input type="checkbox" name="service" value="Internet - 1Gbps" class="mr-2"> Internet - 1Gbps</label>
+        <label><input type="checkbox" name="service" value="Hosted Voice - Basic" class="mr-2"> Hosted Voice - Basic</label>
+        <label><input type="checkbox" name="service" value="Hosted Voice - Premium" class="mr-2"> Hosted Voice - Premium</label>
       </div>
-      <label>Additional Notes: <textarea id="notes"></textarea></label>
-      <button type="submit">Generate Proposal</button>
+      <label>Additional Notes: <textarea id="notes" class="border border-gray-300 rounded p-2"></textarea></label>
+      <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Generate Proposal</button>
     </form>
 
     <div id="proposalOutput" class="proposal-output hidden">

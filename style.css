@@ -32,6 +32,17 @@ form label {
   margin-top: 15px;
 }
 
+#services-options label {
+  display: block;
+  margin-top: 5px;
+  font-weight: normal; /* Override default label bolding if any */
+}
+
+#services-options input[type="checkbox"] {
+  width: auto; /* Override full width for checkboxes */
+  margin-right: 8px;
+}
+
 input, textarea, select {
   width: 100%;
   padding: 8px;
@@ -49,4 +60,17 @@ button {
 
 .hidden {
   display: none;
+}
+
+.proposal-output {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #e6f4ea; /* Light green background */
+  border-radius: 8px;
+  border: 1px solid #d0e0d8; /* Subtle border */
+}
+
+.proposal-output h2 {
+  color: #005a34; /* Darker green for heading */
+  margin-top: 0;
 }

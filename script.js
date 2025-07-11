@@ -3,16 +3,32 @@ document.getElementById('proposalForm').addEventListener('submit', async functio
 
   const businessName = document.getElementById('businessName').value;
   const email = document.getElementById('email').value;
-  const services = document.getElementById('services').value;
   const notes = document.getElementById('notes').value;
+
+  const selectedServiceNodes = document.querySelectorAll('input[name="service"]:checked');
+  let services = Array.from(selectedServiceNodes).map(node => node.value).join(', ');
+  if (!services) {
+    services = "None selected";
+  }
 
   const domainGuess = businessName.toLowerCase().replace(/\s+/g, '') + ".com";
   const logoUrl = `https://logo.clearbit.com/${domainGuess}`;
 
   // Show client logo
   const clientLogo = document.getElementById('clientLogo');
-  clientLogo.src = logoUrl;
-  clientLogo.onerror = () => clientLogo.style.display = "none";
+  clientLogo.style.display = 'inline-block'; // Show it initially before trying to load
+
+  const faviconFallbackUrl = `https://www.google.com/s2/favicons?domain=${domainGuess}&sz=64`; // sz=64 to request a 64px icon
+
+  clientLogo.onerror = () => {
+    // Clearbit failed, try Google Favicon service
+    clientLogo.onerror = () => {
+      // Google Favicon also failed, hide the logo
+      clientLogo.style.display = "none";
+    };
+    clientLogo.src = faviconFallbackUrl;
+  };
+  clientLogo.src = logoUrl; // Initial attempt with Clearbit
 
   const outputDiv = document.getElementById('proposalOutput');
   outputDiv.classList.remove('hidden');

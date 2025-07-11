@@ -15,14 +15,13 @@
     <form id="proposalForm">
       <label>Business Name: <input type="text" id="businessName" required></label>
       <label>Contact Email: <input type="email" id="email"></label>
-      <label>Required Services:
-        <select id="services">
-          <option>Internet - 500Mbps</option>
-          <option>Internet - 1Gbps</option>
-          <option>Hosted Voice - Basic</option>
-          <option>Hosted Voice - Premium</option>
-        </select>
-      </label>
+      <label>Required Services:</label>
+      <div id="services-options">
+        <label><input type="checkbox" name="service" value="Internet - 500Mbps"> Internet - 500Mbps</label>
+        <label><input type="checkbox" name="service" value="Internet - 1Gbps"> Internet - 1Gbps</label>
+        <label><input type="checkbox" name="service" value="Hosted Voice - Basic"> Hosted Voice - Basic</label>
+        <label><input type="checkbox" name="service" value="Hosted Voice - Premium"> Hosted Voice - Premium</label>
+      </div>
       <label>Additional Notes: <textarea id="notes"></textarea></label>
       <button type="submit">Generate Proposal</button>
     </form>

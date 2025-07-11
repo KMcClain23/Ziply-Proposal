@@ -62,15 +62,12 @@ button {
   display: none;
 }
 
-.proposal-output {
+#proposalOutput { /* Changed to ID selector for specificity and to keep margin */
   margin-top: 30px;
-  padding: 20px;
-  background-color: #e6f4ea; /* Light green background */
-  border-radius: 8px;
-  border: 1px solid #d0e0d8; /* Subtle border */
+  /* Styling like padding, background-color, border, border-radius
+     are now handled by the Tailwind classes within the generated HTML. */
 }
 
-.proposal-output h2 {
-  color: #005a34; /* Darker green for heading */
-  margin-top: 0;
-}
+/* The h2 styling within .proposal-output was removed.
+   A reset (.proposal-output h1, .proposal-output h2, .proposal-output h3 { color: inherit; })
+   was added to index.html's inline styles to let Tailwind control text colors. */

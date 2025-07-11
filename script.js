@@ -118,9 +118,9 @@ document.getElementById('proposalForm').addEventListener('submit', async functio
     <div class="proposal-container min-h-screen flex flex-col justify-between items-center text-center py-12 px-4 sm:px-8">
         <div></div> <!-- Spacer -->
         <div>
-            <div class="flex items-center justify-center mb-8">
+            <div class="flex items-center justify-center mb-8 space-x-4">
                 <img src="ziplylogo.jpg" alt="Ziply Fiber Logo" width="200" class="h-auto" />
-                <!-- Client logo is in the main app header -->
+                <img id="coverClientLogo" alt="Client Logo" style="height: 70px; max-width: 200px;" class="h-auto hidden"/>
             </div>
             <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-4">Ziply Fiber Business Proposal</h1>
             <p class="text-xl text-gray-700">${businessName}</p>
@@ -238,5 +238,84 @@ document.getElementById('proposalForm').addEventListener('submit', async functio
   const outputDiv = document.getElementById('proposalOutput');
   outputDiv.classList.remove('hidden');
   outputDiv.innerHTML = proposalHTML;
-  window.print(); // Trigger print dialog
+
+  const downloadPdfButton = document.getElementById('downloadPdfButton');
+  downloadPdfButton.classList.remove('hidden');
+
+  // Client Logo Handling for Cover Page (after main logo logic)
+  const mainClientLogoEl = document.getElementById('clientLogo'); // The one in the main app header
+  const coverClientLogoEl = document.getElementById('coverClientLogo'); // The one in the proposal cover
+
+  if (coverClientLogoEl) {
+    if (mainClientLogoEl.style.display !== 'none' && mainClientLogoEl.src) {
+      coverClientLogoEl.src = mainClientLogoEl.src;
+      coverClientLogoEl.classList.remove('hidden');
+    } else {
+      coverClientLogoEl.classList.add('hidden'); // Ensure it stays hidden if no logo
+    }
+  }
+
+  // Add event listener for the new PDF download button
+  downloadPdfButton.addEventListener('click', function() {
+    const proposalElement = document.getElementById('proposalOutput');
+    if (!proposalElement) {
+      console.error('Proposal output element not found!');
+      return;
+    }
+
+    // Show a loading indicator (optional, but good for UX)
+    downloadPdfButton.textContent = 'Generating PDF...';
+    downloadPdfButton.disabled = true;
+
+    html2canvas(proposalElement, {
+      scale: 2, // Improves quality
+      useCORS: true, // For external images if any are still used indirectly
+      logging: false, // Set to true for debugging html2canvas
+      allowTaint: true, // May be needed for certain image loading scenarios
+      scrollX: 0, // Ensure we capture from the top-left
+      scrollY: -window.scrollY // Capture from the top of the element
+    }).then(canvas => {
+      const imgData = canvas.toDataURL('image/png');
+      const { jsPDF } = window.jspdf; // Access jsPDF from the global window object
+      const pdf = new jsPDF('p', 'pt', 'a4'); // p: portrait, pt: points, a4: page size
+
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+
+      const canvasWidth = canvas.width;
+      const canvasHeight = canvas.height;
+
+      // Calculate the aspect ratio
+      const ratio = canvasWidth / canvasHeight;
+
+      // Calculate the height of the image in the PDF based on the PDF width and aspect ratio
+      const imgHeightInPdf = pdfWidth / ratio;
+
+      let position = 0;
+      let heightLeft = imgHeightInPdf;
+
+      pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeightInPdf);
+      heightLeft -= pdfHeight;
+
+      while (heightLeft > 0) {
+        position = position - pdfHeight; // Or: position -= pdfHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeightInPdf);
+        heightLeft -= pdfHeight;
+      }
+
+      pdf.save(`ZiplyFiber-Proposal-${businessName.replace(/\s+/g, '_')}.pdf`);
+
+      // Reset button
+      downloadPdfButton.textContent = 'Download Proposal as PDF';
+      downloadPdfButton.disabled = false;
+
+    }).catch(error => {
+      console.error('Error generating PDF:', error);
+      // Reset button on error too
+      downloadPdfButton.textContent = 'Download Proposal as PDF';
+      downloadPdfButton.disabled = false;
+      alert('Could not generate PDF. See console for details.');
+    });
+  });
 });

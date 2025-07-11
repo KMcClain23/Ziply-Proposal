@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <title>Ziply Proposal Generator</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- jsPDF Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <!-- html2canvas Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
@@ -39,6 +43,7 @@
       </div>
       <label>Additional Notes: <textarea id="notes" class="border border-gray-300 rounded p-2"></textarea></label>
       <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Generate Proposal</button>
+      <button type="button" id="downloadPdfButton" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2 hidden">Download Proposal as PDF</button>
     </form>
 
     <div id="proposalOutput" class="proposal-output hidden">

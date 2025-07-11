@@ -73,3 +73,54 @@ button {
 /* The h2 styling within .proposal-output was removed.
    A reset (.proposal-output h1, .proposal-output h2, .proposal-output h3 { color: inherit; })
    was added to index.html's inline styles to let Tailwind control text colors. */
+
+/* Print specific styles */
+@media print {
+  body {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: white !important; /* Ensure background is white for print */
+  }
+
+  /* Hide everything that is a direct child of body except the proposal output */
+  body > *:not(#proposalOutput) {
+    display: none !important;
+  }
+
+  /* Ensure the proposal output itself and its container take up the necessary space */
+  #proposalOutput, .proposal-container {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    background-color: white !important; /* Ensure proposal pages have white background */
+  }
+
+  /* The proposal HTML includes its own <style> block with .page-break.
+     We ensure that Tailwind's screen-based colors don't override print's need for black text.
+     The proposal's internal style block should handle its specific fonts and text colors for screen,
+     but for print, forcing black text can be a good idea if issues arise.
+     However, Tailwind's default text colors (like text-gray-700) often print fine as dark gray/black.
+     Let's be less aggressive with forcing all text to black for now,
+     as Tailwind should handle this reasonably. We can add it if needed.
+  */
+
+  .proposal-container img {
+    max-width: 100% !important; /* Prevent images from overflowing page */
+    page-break-inside: avoid !important;
+  }
+
+  .page-break { /* Ensure this is effective */
+    page-break-before: always !important;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+
+  /* Hide the main page header elements specifically if they are not direct children of body */
+  .container, .header, #proposalForm {
+      display: none !important;
+  }
+}

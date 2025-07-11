@@ -238,4 +238,5 @@ document.getElementById('proposalForm').addEventListener('submit', async functio
   const outputDiv = document.getElementById('proposalOutput');
   outputDiv.classList.remove('hidden');
   outputDiv.innerHTML = proposalHTML;
+  window.print(); // Trigger print dialog
 });
